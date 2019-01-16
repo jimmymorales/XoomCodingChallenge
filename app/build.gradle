@@ -31,6 +31,9 @@ ext {
     room_version = '2.1.0-alpha03'
     retrofit_version = '2.3.0'
     okhttp_logging_interceptor_version = '3.9.0'
+    versions_paging = '2.1.0-rc01'
+    versions_lifecycle = '2.0.0'
+    versions_glide = '4.8.0'
 }
 
 dependencies {
@@ -53,4 +56,15 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_logging_interceptor_version"
+
+    // Paging
+    implementation "androidx.paging:paging-runtime-ktx:$versions_paging"
+
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-runtime:$versions_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-extensions:$versions_lifecycle"
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$versions_glide"
+    kapt "com.github.bumptech.glide:compiler:$versions_glide"
 }
