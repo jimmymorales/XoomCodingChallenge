@@ -35,7 +35,7 @@ class CountriesBoundaryCallback(
      */
     @MainThread
     override fun onZeroItemsLoaded() {
-        page = 0
+        page = 1
         helper.runIfNotRunning(PagingRequestHelper.RequestType.INITIAL) {
             webservice.getCountries(
                 pageSize = networkPageSize,

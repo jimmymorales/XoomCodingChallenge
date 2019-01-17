@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Xoom Code Challenge</string>
     <string name="retry">Retry</string>
+    <string name="country_flag_content_description">%s flag</string>
+    <string name="favorite_content_description">Favorite star</string>
 </resources>

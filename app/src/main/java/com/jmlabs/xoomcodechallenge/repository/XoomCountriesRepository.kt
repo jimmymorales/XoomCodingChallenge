@@ -20,7 +20,7 @@ class XoomCountriesRepository(
     private val networkPageSize: Int = DEFAULT_NETWORK_PAGE_SIZE) {
 
     companion object {
-        private const val DEFAULT_NETWORK_PAGE_SIZE = 10
+        private const val DEFAULT_NETWORK_PAGE_SIZE = 30
     }
 
     /**
@@ -45,7 +45,7 @@ class XoomCountriesRepository(
     private fun refresh(): LiveData<NetworkState> {
         val networkState = MutableLiveData<NetworkState>()
         networkState.value = NetworkState.LOADING
-        xoomApi.getCountries(networkPageSize,0).enqueue(
+        xoomApi.getCountries(networkPageSize,1).enqueue(
             object : Callback<XoomApi.ListingResponse> {
                 override fun onFailure(call: Call<XoomApi.ListingResponse>, t: Throwable) {
                     // retrofit calls this on main thread so safe to call set value

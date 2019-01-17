@@ -71,7 +71,9 @@ open class DefaultServiceLocator(val app: Application) : ServiceLocator {
     override fun getRepository(): XoomCountriesRepository {
         return XoomCountriesRepository(
                 db = db,
-                xoomApi = getXoomApi())
+                xoomApi = getXoomApi(),
+                ioExecutor = getDiskIOExecutor()
+            )
     }
 
     override fun getXoomApi(): XoomApi = api
