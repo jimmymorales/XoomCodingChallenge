@@ -17,7 +17,17 @@ interface XoomApi {
         @Query("page_size") pageSize: Int,
         @Query("page") page: Int): Call<ListingResponse>
 
-    class ListingResponse(val items: List<XoomCountry>)
+    class ListingResponse(
+        val items: List<XoomCountry>,
+        val total_items: Int,
+        val total_pages: Int,
+        val links: List<LinkResponse>
+    )
+
+    class LinkResponse(
+        val rel: String,
+        val href: String
+    )
 
     companion object {
         private const val BASE_URL = "https://mobile.xoom.com"

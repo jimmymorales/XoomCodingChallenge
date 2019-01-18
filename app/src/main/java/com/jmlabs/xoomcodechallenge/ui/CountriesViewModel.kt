@@ -10,18 +10,13 @@ import com.jmlabs.xoomcodechallenge.vo.XoomCountry
 class CountriesViewModel(private val repository: XoomCountriesRepository) : ViewModel() {
 
     private val repoResult = MutableLiveData<Listing<XoomCountry>>().apply {
-        value = repository.countries(30)
+        value = repository.getCountryListing(30)
     }
     val countries = Transformations.switchMap(repoResult) { it.pagedList }!!
     val networkState = Transformations.switchMap(repoResult) { it.networkState }!!
     val refreshState = Transformations.switchMap(repoResult) { it.refreshState }!!
 
-    fun refresh() {
-        repoResult.value?.refresh?.invoke()
-    }
+    fun refresh() = repoResult.value?.refresh?.invoke()
 
-    fun retry() {
-        val listing = repoResult.value
-        listing?.retry?.invoke()
-    }
+    fun retry() = repoResult.value?.retry?.invoke()
 }

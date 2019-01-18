@@ -13,4 +13,5 @@ data class XoomCountry(
     val code: String,
     @SerializedName("name")
     val name: String,
-    val favorite: Boolean)
+    val favorite: Boolean,
+    var nextPage: Int = -1)

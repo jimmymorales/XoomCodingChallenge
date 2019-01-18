@@ -8,9 +8,11 @@ import androidx.paging.toLiveData
 import com.jmlabs.xoomcodechallenge.api.XoomApi
 import com.jmlabs.xoomcodechallenge.db.XoomCountriesDb
 import com.jmlabs.xoomcodechallenge.vo.XoomCountry
+import okhttp3.HttpUrl
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.URL
 import java.util.concurrent.Executor
 
 class XoomCountriesRepository(
@@ -27,9 +29,22 @@ class XoomCountriesRepository(
      * Inserts the response into the database.
      */
     private fun insertResultIntoDb(body: XoomApi.ListingResponse?) {
-        body!!.items.let { countries ->
+        val href =
+            body?.links?.find { it.rel == "next" }?.href
+        val nextPage = if (href != null) {
+            val url = HttpUrl.parse("http://example.com$href")
+            url?.queryParameter("page")?.toInt()
+        } else {
+            null
+        }
+        body?.items?.let { countries ->
+            countries.onEach {  }
+            val countriesWithNextPage = countries.map {
+                it.nextPage = nextPage ?: -1
+                it
+            }
             db.runInTransaction {
-                db.countries().insert(countries)
+                db.countriesDao().insert(countriesWithNextPage)
             }
         }
     }
@@ -57,9 +72,7 @@ class XoomCountriesRepository(
                     response: Response<XoomApi.ListingResponse>
                 ) {
                     ioExecutor.execute {
-                        db.runInTransaction {
-                            insertResultIntoDb(response.body())
-                        }
+                        insertResultIntoDb(response.body())
                         // since we are in bg thread now, post the result.
                         networkState.postValue(NetworkState.LOADED)
                     }
@@ -73,7 +86,7 @@ class XoomCountriesRepository(
      * Returns a Listing.
      */
     @MainThread
-    fun countries(pageSize: Int): Listing<XoomCountry> {
+    fun getCountryListing(pageSize: Int): Listing<XoomCountry> {
         // create a boundary callback which will observe when the user reaches to the edges of
         // the list and update the database with extra data.
         val boundaryCallback = CountriesBoundaryCallback(
@@ -90,7 +103,7 @@ class XoomCountriesRepository(
         }
 
         // We use toLiveData Kotlin extension function here, you could also use LivePagedListBuilder
-        val livePagedList = db.countries().countries().toLiveData(
+        val livePagedList = db.countriesDao().countriesWithDisbursementOptions().toLiveData(
             pageSize = pageSize,
             boundaryCallback = boundaryCallback)
 

@@ -23,5 +23,5 @@ abstract class XoomCountriesDb : RoomDatabase() {
         }
     }
 
-    abstract fun countries(): XoomCountryDao
+    abstract fun countriesDao(): XoomCountryDao
 }

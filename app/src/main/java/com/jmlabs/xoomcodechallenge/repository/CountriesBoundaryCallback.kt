@@ -28,18 +28,15 @@ class CountriesBoundaryCallback(
     val helper = PagingRequestHelper(ioExecutor)
     val networkState = helper.createStatusLiveData()
 
-    private var page = 0
-
     /**
      * Database returned 0 items. We should query the backend for more items.
      */
     @MainThread
     override fun onZeroItemsLoaded() {
-        page = 1
         helper.runIfNotRunning(PagingRequestHelper.RequestType.INITIAL) {
             webservice.getCountries(
                 pageSize = networkPageSize,
-                page = page)
+                page = 1)
                 .enqueue(createWebserviceCallback(it))
         }
     }
@@ -49,11 +46,12 @@ class CountriesBoundaryCallback(
      */
     @MainThread
     override fun onItemAtEndLoaded(itemAtEnd: XoomCountry) {
+        if (itemAtEnd.nextPage == -1) return
+
         helper.runIfNotRunning(PagingRequestHelper.RequestType.AFTER) {
-            page++
             webservice.getCountries(
                 pageSize = networkPageSize,
-                page = page)
+                page = itemAtEnd.nextPage)
                 .enqueue(createWebserviceCallback(it))
         }
     }

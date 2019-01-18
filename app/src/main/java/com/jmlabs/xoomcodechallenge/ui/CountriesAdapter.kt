@@ -10,13 +10,15 @@ import com.jmlabs.xoomcodechallenge.repository.NetworkState
 import com.jmlabs.xoomcodechallenge.vo.XoomCountry
 
 /**
- * A simple adapter implementation that shows Xoom countries.
+ * A simple adapter implementation that shows Xoom's countries with active disbursement options.
  */
 class CountriesAdapter(
     private val glide: GlideRequests,
     private val retryCallback: () -> Unit)
-    : PagedListAdapter<XoomCountry, RecyclerView.ViewHolder>(POST_COMPARATOR) {
+    : PagedListAdapter<XoomCountry, RecyclerView.ViewHolder>(COUNTRY_COMPARATOR) {
+
     private var networkState: NetworkState? = null
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             R.layout.xoom_country_item -> (holder as XoomCountryViewHolder).bind(getItem(position))
@@ -75,7 +77,7 @@ class CountriesAdapter(
     }
 
     companion object {
-        val POST_COMPARATOR = object : DiffUtil.ItemCallback<XoomCountry>() {
+        val COUNTRY_COMPARATOR = object : DiffUtil.ItemCallback<XoomCountry>() {
             override fun areContentsTheSame(oldItem: XoomCountry, newItem: XoomCountry): Boolean =
                 oldItem == newItem
 

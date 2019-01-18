@@ -14,4 +14,12 @@ interface XoomCountryDao {
 
     @Query("SELECT * FROM countries")
     fun countries() : DataSource.Factory<Int, XoomCountry>
+
+    // TODO: Fix query to show favs first
+    // TODO: Add Disbursement options to entity and filter by disbursement options
+    @Query("SELECT * FROM countries")
+    fun countriesWithDisbursementOptions() : DataSource.Factory<Int, XoomCountry>
+
+    // TODO: Add update fav and add click listener to start
+
 }
