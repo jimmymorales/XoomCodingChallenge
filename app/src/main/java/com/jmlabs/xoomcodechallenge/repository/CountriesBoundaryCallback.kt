@@ -22,8 +22,8 @@ class CountriesBoundaryCallback(
     private val webservice: XoomApi,
     private val handleResponse: (XoomApi.ListingResponse?) -> Unit,
     private val ioExecutor: Executor,
-    private val networkPageSize: Int)
-    : PagedList.BoundaryCallback<XoomCountry>() {
+    private val networkPageSize: Int
+) : PagedList.BoundaryCallback<XoomCountry>() {
 
     val helper = PagingRequestHelper(ioExecutor)
     val networkState = helper.createStatusLiveData()
@@ -36,7 +36,8 @@ class CountriesBoundaryCallback(
         helper.runIfNotRunning(PagingRequestHelper.RequestType.INITIAL) {
             webservice.getCountries(
                 pageSize = networkPageSize,
-                page = 1)
+                page = 1
+            )
                 .enqueue(createWebserviceCallback(it))
         }
     }
@@ -51,7 +52,8 @@ class CountriesBoundaryCallback(
         helper.runIfNotRunning(PagingRequestHelper.RequestType.AFTER) {
             webservice.getCountries(
                 pageSize = networkPageSize,
-                page = itemAtEnd.nextPage)
+                page = itemAtEnd.nextPage
+            )
                 .enqueue(createWebserviceCallback(it))
         }
     }
@@ -62,7 +64,8 @@ class CountriesBoundaryCallback(
      */
     private fun insertItemsIntoDb(
         response: Response<XoomApi.ListingResponse>,
-        it: PagingRequestHelper.Request.Callback) {
+        it: PagingRequestHelper.Request.Callback
+    ) {
         ioExecutor.execute {
             handleResponse(response.body())
             it.recordSuccess()
@@ -78,7 +81,8 @@ class CountriesBoundaryCallback(
         return object : Callback<XoomApi.ListingResponse> {
             override fun onFailure(
                 call: Call<XoomApi.ListingResponse>,
-                t: Throwable) {
+                t: Throwable
+            ) {
                 it.recordFailure(t)
             }
 

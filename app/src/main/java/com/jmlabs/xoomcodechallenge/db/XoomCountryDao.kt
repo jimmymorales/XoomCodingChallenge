@@ -7,15 +7,18 @@ import com.jmlabs.xoomcodechallenge.vo.XoomCountry
 
 @Dao
 interface XoomCountryDao {
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(posts: List<XoomCountry>)
 
-    @Query("""
+    @Query(
+        """
             SELECT *
             FROM countries
             WHERE hasDisbursementOptions = 1
             ORDER BY favorite DESC, code
-            """)
+            """
+    )
     fun countriesWithDisbursementOptions(): DataSource.Factory<Int, XoomCountry>
 
     @Update

@@ -26,8 +26,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="Guatemala"
-            android:layout_marginStart="16dp" app:layout_constraintEnd_toStartOf="@+id/star"
-            android:layout_marginEnd="16dp" android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/star"
+            android:layout_marginEnd="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
     <ImageButton
             android:id="@+id/star"

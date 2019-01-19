@@ -15,8 +15,8 @@ import com.jmlabs.xoomcodechallenge.vo.XoomCountry
 class CountriesAdapter(
     private val glide: GlideRequests,
     private val retryCallback: () -> Unit,
-    private val updateCallback: (it: XoomCountry) -> Unit)
-    : PagedListAdapter<XoomCountry, RecyclerView.ViewHolder>(COUNTRY_COMPARATOR) {
+    private val updateCallback: (it: XoomCountry) -> Unit
+) : PagedListAdapter<XoomCountry, RecyclerView.ViewHolder>(COUNTRY_COMPARATOR) {
 
     private var networkState: NetworkState? = null
 
@@ -24,7 +24,8 @@ class CountriesAdapter(
         when (getItemViewType(position)) {
             R.layout.xoom_country_item -> (holder as XoomCountryViewHolder).bind(getItem(position))
             R.layout.network_state_item -> (holder as NetworkStateItemViewHolder).bindTo(
-                networkState)
+                networkState
+            )
         }
     }
 

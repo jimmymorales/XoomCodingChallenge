@@ -18,7 +18,8 @@ class XoomCountriesRepository(
     val db: XoomCountriesDb,
     private val xoomApi: XoomApi,
     private val ioExecutor: Executor,
-    private val networkPageSize: Int = DEFAULT_NETWORK_PAGE_SIZE) {
+    private val networkPageSize: Int = DEFAULT_NETWORK_PAGE_SIZE
+) {
 
     companion object {
         private const val DEFAULT_NETWORK_PAGE_SIZE = 30
@@ -37,11 +38,9 @@ class XoomCountriesRepository(
             null
         }
         body?.items?.let { countries ->
-            countries.onEach {  }
             val countriesWithNextPage = countries.map {
                 it.nextPage = nextPage ?: -1
                 it.hasDisbursementOptions = it.disbursementOptions?.any() ?: false
-                println("Country: ${it.name}, D: ${it.disbursementOptions?.getOrNull(0)?.id}, has? ${it.hasDisbursementOptions}")
                 it
             }
             db.runInTransaction {
@@ -51,8 +50,7 @@ class XoomCountriesRepository(
     }
 
     /**
-     * When refresh is called, we simply run a fresh network request and when it arrives, clear
-     * the database table and insert all new items in a transaction.
+     * When refresh is called, we simply run a fresh network request and when it arrives.
      * <p>
      * Since the PagedList already uses a database bound data source, it will automatically be
      * updated after the database transaction is finished.
@@ -61,7 +59,7 @@ class XoomCountriesRepository(
     private fun refresh(): LiveData<NetworkState> {
         val networkState = MutableLiveData<NetworkState>()
         networkState.value = NetworkState.LOADING
-        xoomApi.getCountries(networkPageSize,1).enqueue(
+        xoomApi.getCountries(networkPageSize, 1).enqueue(
             object : Callback<XoomApi.ListingResponse> {
                 override fun onFailure(call: Call<XoomApi.ListingResponse>, t: Throwable) {
                     // retrofit calls this on main thread so safe to call set value
@@ -94,7 +92,8 @@ class XoomCountriesRepository(
             webservice = xoomApi,
             handleResponse = this::insertResultIntoDb,
             ioExecutor = ioExecutor,
-            networkPageSize = networkPageSize)
+            networkPageSize = networkPageSize
+        )
         // we are using a mutable live data to trigger refresh requests which eventually calls
         // refresh method and gets a new live data. Each refresh request by the user becomes a newly
         // dispatched data in refreshTrigger
@@ -103,10 +102,10 @@ class XoomCountriesRepository(
             refresh()
         }
 
-        // We use toLiveData Kotlin extension function here, you could also use LivePagedListBuilder
         val livePagedList = db.countriesDao().countriesWithDisbursementOptions().toLiveData(
             pageSize = pageSize,
-            boundaryCallback = boundaryCallback)
+            boundaryCallback = boundaryCallback
+        )
 
         return Listing(
             pagedList = livePagedList,

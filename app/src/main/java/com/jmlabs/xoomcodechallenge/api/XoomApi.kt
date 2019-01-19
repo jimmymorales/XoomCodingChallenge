@@ -1,7 +1,6 @@
 package com.jmlabs.xoomcodechallenge.api
 
 import android.util.Log
-import com.google.gson.annotations.SerializedName
 import com.jmlabs.xoomcodechallenge.vo.XoomCountry
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
@@ -13,10 +12,12 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface XoomApi {
+
     @GET("/catalog/v2/countries")
     fun getCountries(
         @Query("page_size") pageSize: Int,
-        @Query("page") page: Int): Call<ListingResponse>
+        @Query("page") page: Int
+    ): Call<ListingResponse>
 
     class ListingResponse(
         val items: List<XoomCountry>,
@@ -29,9 +30,8 @@ interface XoomApi {
     )
 
     class DisbursementOption(
-        val id: String,
-        @SerializedName("disbursement_type")
-        val type: String)
+        val id: String
+    )
 
     companion object {
         private const val BASE_URL = "https://mobile.xoom.com"

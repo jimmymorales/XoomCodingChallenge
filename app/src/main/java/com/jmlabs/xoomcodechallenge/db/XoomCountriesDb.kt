@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.jmlabs.xoomcodechallenge.vo.XoomCountry
 
 /**
- * Database schema used by the DbXoomCountriesRepository
+ * Database schema used by the XoomCountriesRepository
  */
 @Database(
     entities = [XoomCountry::class],
