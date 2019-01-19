@@ -1,6 +1,7 @@
 package com.jmlabs.xoomcodechallenge.api
 
 import android.util.Log
+import com.google.gson.annotations.SerializedName
 import com.jmlabs.xoomcodechallenge.vo.XoomCountry
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
@@ -19,8 +20,6 @@ interface XoomApi {
 
     class ListingResponse(
         val items: List<XoomCountry>,
-        val total_items: Int,
-        val total_pages: Int,
         val links: List<LinkResponse>
     )
 
@@ -28,6 +27,11 @@ interface XoomApi {
         val rel: String,
         val href: String
     )
+
+    class DisbursementOption(
+        val id: String,
+        @SerializedName("disbursement_type")
+        val type: String)
 
     companion object {
         private const val BASE_URL = "https://mobile.xoom.com"

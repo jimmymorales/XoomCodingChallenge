@@ -12,7 +12,6 @@ import okhttp3.HttpUrl
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.URL
 import java.util.concurrent.Executor
 
 class XoomCountriesRepository(
@@ -41,6 +40,8 @@ class XoomCountriesRepository(
             countries.onEach {  }
             val countriesWithNextPage = countries.map {
                 it.nextPage = nextPage ?: -1
+                it.hasDisbursementOptions = it.disbursementOptions?.any() ?: false
+                println("Country: ${it.name}, D: ${it.disbursementOptions?.getOrNull(0)?.id}, has? ${it.hasDisbursementOptions}")
                 it
             }
             db.runInTransaction {
@@ -118,5 +119,9 @@ class XoomCountriesRepository(
             },
             refreshState = refreshState
         )
+    }
+
+    fun updateFav(country: XoomCountry) = ioExecutor.execute {
+        db.countriesDao().updateFav(country)
     }
 }

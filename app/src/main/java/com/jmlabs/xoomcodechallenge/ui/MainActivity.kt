@@ -42,9 +42,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun initAdapter() {
         val glide = GlideApp.with(this)
-        val adapter = CountriesAdapter(glide) {
+        val adapter = CountriesAdapter(glide, {
             model.retry()
-        }
+        }, {
+            model.updateFav(it)
+        })
         list.adapter = adapter
         model.countries.observe(this, Observer<PagedList<XoomCountry>> {
             adapter.submitList(it)

@@ -19,4 +19,6 @@ class CountriesViewModel(private val repository: XoomCountriesRepository) : View
     fun refresh() = repoResult.value?.refresh?.invoke()
 
     fun retry() = repoResult.value?.retry?.invoke()
+
+    fun updateFav(country: XoomCountry) = repository.updateFav(country)
 }

@@ -14,7 +14,8 @@ import com.jmlabs.xoomcodechallenge.vo.XoomCountry
  */
 class CountriesAdapter(
     private val glide: GlideRequests,
-    private val retryCallback: () -> Unit)
+    private val retryCallback: () -> Unit,
+    private val updateCallback: (it: XoomCountry) -> Unit)
     : PagedListAdapter<XoomCountry, RecyclerView.ViewHolder>(COUNTRY_COMPARATOR) {
 
     private var networkState: NetworkState? = null
@@ -27,20 +28,9 @@ class CountriesAdapter(
         }
     }
 
-    override fun onBindViewHolder(
-        holder: RecyclerView.ViewHolder,
-        position: Int,
-        payloads: MutableList<Any>) {
-        if (payloads.isNotEmpty()) {
-            val item = getItem(position)
-        } else {
-            onBindViewHolder(holder, position)
-        }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            R.layout.xoom_country_item -> XoomCountryViewHolder.create(parent, glide)
+            R.layout.xoom_country_item -> XoomCountryViewHolder.create(parent, glide, updateCallback)
             R.layout.network_state_item -> NetworkStateItemViewHolder.create(parent, retryCallback)
             else -> throw IllegalArgumentException("unknown view type $viewType")
         }
@@ -83,10 +73,6 @@ class CountriesAdapter(
 
             override fun areItemsTheSame(oldItem: XoomCountry, newItem: XoomCountry): Boolean =
                 oldItem.name == newItem.name
-
-            override fun getChangePayload(oldItem: XoomCountry, newItem: XoomCountry): Any? {
-                return null
-            }
         }
     }
 }

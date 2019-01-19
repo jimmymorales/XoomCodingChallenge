@@ -20,15 +20,16 @@
 
     <TextView
             android:id="@+id/country_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/flag"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="Guatemala"
-            android:layout_marginStart="16dp"/>
+            android:layout_marginStart="16dp" app:layout_constraintEnd_toStartOf="@+id/star"
+            android:layout_marginEnd="16dp" android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
-    <ImageView
+    <ImageButton
             android:id="@+id/star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,6 +38,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_star_border_teal_24dp" />
+            app:srcCompat="@drawable/ic_star_border_teal_24dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
