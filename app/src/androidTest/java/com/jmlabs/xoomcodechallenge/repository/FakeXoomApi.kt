@@ -24,9 +24,9 @@ class FakeXoomApi : XoomApi {
 
     private fun findCountries(
         pageSize: Int,
-        page: Int? = null
+        page: Int
     ): List<XoomCountry> {
-        if (page == null) {
+        if (page == 0) {
             return model.subList(0, Math.min(model.size, pageSize))
         }
         val index = model.indexOfLast { it.nextPage == page }

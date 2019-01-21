@@ -2,7 +2,6 @@ package com.jmlabs.xoomcodechallenge.db
 
 import androidx.paging.DataSource
 import androidx.room.*
-import com.jmlabs.xoomcodechallenge.XoomAppGlideModule
 import com.jmlabs.xoomcodechallenge.vo.XoomCountry
 
 @Dao
@@ -16,7 +15,7 @@ interface XoomCountryDao {
             SELECT *
             FROM countries
             WHERE hasDisbursementOptions = 1
-            ORDER BY favorite DESC, code
+            ORDER BY favorite DESC
             """
     )
     fun countriesWithDisbursementOptions(): DataSource.Factory<Int, XoomCountry>
