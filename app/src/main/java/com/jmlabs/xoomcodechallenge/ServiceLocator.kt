@@ -49,7 +49,7 @@ interface ServiceLocator {
 /**
  * default implementation of ServiceLocator that uses production endpoints.
  */
-open class DefaultServiceLocator(val app: Application) : ServiceLocator {
+open class DefaultServiceLocator(val app: Application, val useInMemoryDb: Boolean = false) : ServiceLocator {
 
     // thread pool used for disk access
     @Suppress("PrivatePropertyName")
@@ -61,7 +61,7 @@ open class DefaultServiceLocator(val app: Application) : ServiceLocator {
 
 
     private val db by lazy {
-        XoomCountriesDb.create(app)
+        XoomCountriesDb.create(app, useInMemoryDb)
     }
 
     private val api by lazy {

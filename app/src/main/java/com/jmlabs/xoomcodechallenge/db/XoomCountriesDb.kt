@@ -16,9 +16,14 @@ import com.jmlabs.xoomcodechallenge.vo.XoomCountry
 )
 abstract class XoomCountriesDb : RoomDatabase() {
     companion object {
-        fun create(context: Context): XoomCountriesDb {
-            return Room.databaseBuilder(context, XoomCountriesDb::class.java, "xoom.db")
-                .fallbackToDestructiveMigration()
+        fun create(context: Context, useInMemoryDb: Boolean): XoomCountriesDb {
+            val databaseBuilder = if (useInMemoryDb) {
+                Room.inMemoryDatabaseBuilder(context, XoomCountriesDb::class.java)
+            } else {
+                Room.databaseBuilder(context, XoomCountriesDb::class.java, "xoom.db")
+            }
+
+            return databaseBuilder.fallbackToDestructiveMigration()
                 .build()
         }
     }
